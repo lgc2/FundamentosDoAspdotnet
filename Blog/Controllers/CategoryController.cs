@@ -15,11 +15,11 @@ namespace Blog.Controllers
             try
             {
                 var categories = await context.Categories.AsNoTracking().ToListAsync();
-                return Ok(categories);
+                return Ok(new ResultViewModel<List<Category>>(categories));
             }
-            catch (Exception ex)
+            catch
             {
-                return StatusCode(500, "05X04 - Falha interna no servidor");
+                return StatusCode(500, new ResultViewModel<List<Category>>("05X04 - Falha interna no servidor"));
             }
         }
 
@@ -48,8 +48,8 @@ namespace Blog.Controllers
             [FromBody] EditorCategoryViewModel model,
             [FromServices] BlogDataContext context)
         {
-            //if (!ModelState.IsValid)
-            //    return BadRequest();
+            if (!ModelState.IsValid)
+                return BadRequest();
 
             try
             {
