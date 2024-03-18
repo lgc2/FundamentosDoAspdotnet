@@ -48,6 +48,9 @@ namespace Blog.Controllers
             [FromBody] EditorCategoryViewModel model,
             [FromServices] BlogDataContext context)
         {
+            //if (!ModelState.IsValid)
+            //    return BadRequest();
+
             try
             {
                 var category = new Category
