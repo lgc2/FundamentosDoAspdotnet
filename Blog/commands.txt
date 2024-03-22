@@ -5,3 +5,6 @@ dotnet add package Microsoft.EntityFrameworkCore.Design
 
 dotnet ef migrations add CreateDatabase
 dotnet ef database update
+
+dotnet add package Microsoft.AspNetCore.Authentication
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
