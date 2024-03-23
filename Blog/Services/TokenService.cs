@@ -13,7 +13,11 @@ namespace Blog.Services
             // Chave transformada em array de bytes
             var key = Encoding.ASCII.GetBytes(Configuration.JwtKey);
             // Configurações do token | Contém todas as infos do token
-            var tokenDescriptor = new SecurityTokenDescriptor();
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Expires = DateTime.UtcNow.AddHours(8),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
