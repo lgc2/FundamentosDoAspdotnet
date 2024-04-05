@@ -65,4 +65,5 @@ void ConfigureServices(WebApplicationBuilder builder)
     builder.Services.AddTransient<TokenService>(); // sempre cria um novo
     //builder.Services.AddScoped(); // instancia uma vez por transação/requisição
     //builder.Services.AddSingleton(); // instancia uma vez por app
+    builder.Services.AddTransient<EmailService>();
 }
