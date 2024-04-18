@@ -10,3 +10,6 @@ dotnet add package Microsoft.AspNetCore.Authentication
 dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
 
 dotnet add package SecureIdentity
+
+dotnet build -c Release
+dotnet build --configuration Release
