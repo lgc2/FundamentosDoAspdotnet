@@ -2,6 +2,7 @@
 using Blog.Models;
 using Blog.ViewModels;
 using Blog.ViewModels.Posts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -130,6 +131,39 @@ namespace Blog.Controllers
             catch
             {
                 return StatusCode(500, new ResultViewModel<List<Post>>("05X04 - Falha interna no servidor"));
+            }
+        }
+
+        [Authorize]
+        [HttpGet("v1/posts/user-posts")]
+        public async Task<IActionResult> GetUserPostsAsync([FromServices] BlogDataContext context)
+        {
+            try
+            {
+                var user = await context
+                .Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Email == User.Identity.Name);
+
+                if (user is null)
+                    return NotFound(new ResultViewModel<User>("Usuário não encontrado"));
+
+                var userPosts = await context
+                    .Posts
+                    .AsNoTracking()
+                    .Where(p => p.Author.Id == user.Id)
+                    .OrderBy(p => p.Id)
+                    .ToListAsync();
+
+                if (userPosts.Count == 0)
+                    return Ok(new ResultViewModel<string>("Você ainda não publicou um Post."));
+
+
+                return Ok(new ResultViewModel<List<Post>>(userPosts));
+            }
+            catch
+            {
+                return StatusCode(500, new ResultViewModel<string>("05X04 - Falha interna no servidor"));
             }
         }
     }
