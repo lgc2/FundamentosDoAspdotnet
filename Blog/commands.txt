@@ -13,3 +13,5 @@ dotnet add package SecureIdentity
 
 dotnet build -c Release
 dotnet build --configuration Release
+
+dotnet add package Swashbuckle.AspNetCore
